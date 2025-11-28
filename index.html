@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOX PROJECT PROPOSAL</title>
+    <!-- Import Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --neon-blue: #00f2ff;
+            --neon-green: #0aff60;
+            --neon-purple: #bc13fe;
+            --neon-orange: #ff9100;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* NO SCROLLING */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- CONTAINER --- */
+        .deck-container {
+            width: 95%;
+            height: 95vh;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- SLIDE BASICS --- */
+        .slide {
+            display: none; /* Hidden by default */
+            height: 100%;
+            width: 100%;
+            padding: 20px 60px;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 {
+            font-size: 3.5rem;
+            margin: 10px 0 5px 0;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(188, 19, 254, 0.3);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin: 0 0 25px 0;
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+            border-radius: 2px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            margin: 10px 0;
+        }
+
+        /* --- LOGO STYLING --- */
+        .team-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+        }
+
+        /* --- COMPONENT CARDS (Glassmorphism) --- */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            width: calc(45% - 20px); /* 2 Column Default */
+            text-align: left;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+        }
+
+        /* Specific Card Accents */
+        .card.accent-red { border-left: 4px solid #ff4757; }
+        .card.accent-yellow { border-left: 4px solid var(--neon-orange); }
+        .card.accent-green { border-left: 4px solid var(--neon-green); }
+        .card.accent-blue { border-left: 4px solid var(--neon-blue); }
+        .card.accent-purple { border-left: 4px solid var(--neon-purple); }
+
+        /* --- 3 COLUMN LAYOUT --- */
+        .col-3 { width: 30%; }
+
+        /* --- FLOW CHART NODES --- */
+        .flow-node {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            position: relative;
+            min-width: 150px;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+        .flow-arrow {
+            font-size: 2.5rem; 
+            color: var(--neon-green);
+            margin: 0 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* --- TABLES --- */
+        .styled-table {
+            width: 80%;
+            max-width: 900px;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .styled-table th {
+            background: rgba(0, 242, 255, 0.2);
+            color: var(--neon-blue);
+            padding: 15px;
+            text-align: left;
+        }
+        .styled-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .styled-table tr:hover { background: rgba(255,255,255,0.05); }
+
+        /* --- CONTROLS --- */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        .nav-btn:hover { background: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        .counter {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-family: monospace;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* --- RESPONSIVE TWEAKS --- */
+        @media (max-height: 800px) {
+            .team-logo { width: 80px; height: 80px; }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; margin-bottom: 15px; }
+            .card { padding: 15px; }
+            p { font-size: 1rem; margin: 5px 0; }
+            .slide { padding: 10px 50px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-container">
+
+    <!-- SLIDE 1: INTRO -->
+    <div class="slide" style="display: flex;">
+        <!-- LOGO (Replace src with your logo file) -->
+        <img src="logo.png" alt="Team Logo" class="team-logo">
+
+        <h1 style="margin-bottom: 0;">INNOX</h1>
+        <h2 style="border: none; margin-top: 0; color: var(--neon-blue); font-weight: 300;">ECO-SMART GREENHOUSE</h2>
+        <div style="background: rgba(255,255,255,0.1); padding: 5px 20px; border-radius: 20px; margin-bottom: 30px;">
+            <span style="color: var(--neon-green);">● OFF-GRID</span> &nbsp;&nbsp; <span style="color: var(--neon-purple);">● AI-DRIVEN</span>
+        </div>
+        <p style="font-size: 1.3rem; max-width: 700px; color: #fff;">
+            "A router-independent, autonomous farming system engineered for the future of food security."
+        </p>
+        <div style="margin-top: 50px; opacity: 0.7;">
+            <small>November 2025 • Project Proposal</small>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PROBLEM -->
+    <div class="slide">
+        <h2>THE CHALLENGE</h2>
+        <div class="grid-container">
+            <div class="card accent-red">
+                <h4>🚫 Disconnected</h4>
+                <p>Standard IoT relies on Wi-Fi. In vast rural fields, signals fail, rendering devices useless.</p>
+            </div>
+            <div class="card accent-yellow">
+                <h4>⚡ Energy Waste</h4>
+                <p>Static solar panels lose ~40% efficiency due to misalignment, failing to power AI hardware.</p>
+            </div>
+            <div class="card accent-blue">
+                <h4>🧩 Siloed Tech</h4>
+                <p>Devices don't talk to each other. Farmers face messy wiring and fragmented data.</p>
+            </div>
+            <div class="card accent-green">
+                <h4>🦠 Late Action</h4>
+                <p>Diseases like Leaf Rust are detected too late by eye, causing total crop loss.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: SOLUTION -->
+    <div class="slide">
+        <h2>THE INNOX ADVANTAGE</h2>
+        <div class="grid-container">
+            <div class="card col-3" style="text-align: center; border-top: 4px solid var(--neon-blue);">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🌐</div>
+                <h4>ESP-NOW MESH</h4>
+                <p>Router-independent communication range covering entire hectares.</p>
+            </div>
+            <div class="card col-3" style="text-align: center; border-top: 4px solid var(--neon-orange);">
+                 <div style="font-size: 3rem; margin-bottom: 10px;">☀️</div>
+                <h4>DUAL-AXIS SOLAR</h4>
+                <p>Active sun tracking increases energy harvest by <strong>+40%</strong>.</p>
+            </div>
+            <div class="card col-3" style="text-align: center; border-top: 4px solid var(--neon-purple);">
+                 <div style="font-size: 3rem; margin-bottom: 10px;">🧠</div>
+                <h4>EDGE AI</h4>
+                <p><strong>Edge Impulse</strong> visual diagnosis runs offline on the chip.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: ARCHITECTURE -->
+    <div class="slide">
+        <h2>SYSTEM TOPOLOGY</h2>
+        <p style="color: var(--neon-blue); margin-bottom: 40px;">Bi-Directional Mesh Network</p>
+        
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <div class="flow-node">
+                <strong>SENSOR NODE</strong><br>
+                <small>Collects Data</small>
+            </div>
+            <div class="flow-arrow">⇄</div>
+            <div class="flow-node" style="border-color: var(--neon-purple);">
+                <strong>MESH NET</strong><br>
+                <small>Peer-to-Peer</small>
+            </div>
+            <div class="flow-arrow">⇄</div>
+            <div class="flow-node" style="border-color: var(--neon-green);">
+                <strong>GATEWAY</strong><br>
+                <small>Cloud Bridge</small>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; display: inline-block;">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--neon-green);">
+                ➡ Forward: Sensor Telemetry & Disease Logs<br>
+                ⬅ Backward: Pump Control & Emergency Stop
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: HARDWARE -->
+    <div class="slide">
+        <h2>HARDWARE BRAIN</h2>
+        <div class="grid-container">
+            <div class="card accent-blue">
+                <h4>ESP32 Controller</h4>
+                <p>Dual Core 240MHz processor handling parallel logic threads.</p>
+            </div>
+            <div class="card accent-purple">
+                <h4>ESP32-CAM (AI)</h4>
+                <p>Dedicated vision module running TinyML models for disease scanning.</p>
+            </div>
+            <div class="card accent-yellow">
+                <h4>CN3065 MPPT</h4>
+                <p>Max Power Point Tracking for efficient Li-Ion battery charging.</p>
+            </div>
+            <div class="card accent-green">
+                <h4>Sensor Suite</h4>
+                <p>DHT11 (Air), LDR (Sun), Resistive Probe (Soil Moisture).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: CONTROL LOOPS -->
+    <div class="slide">
+        <h2>AUTOMATED CONTROL</h2>
+        <div class="grid-container">
+            <div class="card col-3" style="background: rgba(0,242,255,0.1);">
+                <h4 style="color: #fff;">🌡️ Climate</h4>
+                <p style="color: var(--neon-blue); font-weight: bold;">DHT11 ➜ Fans</p>
+                <p>Regulates VPD automatically.</p>
+            </div>
+            <div class="card col-3" style="background: rgba(10,255,96,0.1);">
+                <h4 style="color: #fff;">💧 Water</h4>
+                <p style="color: var(--neon-green); font-weight: bold;">Soil Probe ➜ Pump</p>
+                <p>Precision irrigation.</p>
+            </div>
+            <div class="card col-3" style="background: rgba(255,145,0,0.1);">
+                <h4 style="color: #fff;">💡 Light</h4>
+                <p style="color: var(--neon-orange); font-weight: bold;">LDR ➜ Grow LEDs</p>
+                <p>Supplements cloudy days.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: SOLAR TRACKER -->
+    <div class="slide">
+        <h2>ACTIVE POWER PLANT</h2>
+        <h3 style="color: var(--neon-orange); margin: 0;">Dual-Axis Tracking System</h3>
+        
+        <div style="margin: 30px; position: relative; width: 200px; height: 150px; border: 2px dashed var(--neon-orange); display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+            <div style="width: 50px; height: 50px; background: var(--neon-orange); border-radius: 50%; box-shadow: 0 0 20px var(--neon-orange);"></div>
+            <span style="position: absolute; bottom: -25px; font-size: 0.8rem;">Sun Position</span>
+        </div>
+
+        <div class="card" style="width: 60%; text-align: center; border-left: none; border-top: 4px solid var(--neon-orange);">
+            <p><strong>Logic:</strong> 4 LDRs compare brightness. Servos move until all sensors read equal values.</p>
+            <p style="font-size: 1.5rem; color: var(--neon-orange);">Result: +40% Energy Efficiency</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: AI -->
+    <div class="slide">
+        <h2>THE "DOCTOR": EDGE AI</h2>
+        <div class="grid-container" style="flex-direction: column; align-items: center;">
+            <div class="card" style="width: 70%; border-left: 5px solid var(--neon-purple);">
+                <h4>1. Capture</h4>
+                <p>ESP32-CAM takes a snapshot of the leaf.</p>
+            </div>
+            <div class="card" style="width: 70%; border-left: 5px solid var(--neon-purple);">
+                <h4>2. Infer (Offline)</h4>
+                <p>Edge Impulse model analyzes texture/color for <strong>Leaf Rust</strong>.</p>
+            </div>
+            <div class="card" style="width: 70%; border-left: 5px solid var(--neon-green);">
+                <h4>3. Prescribe</h4>
+                <p>System logs the disease and suggests remedies on the dashboard.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: NOVELTY -->
+    <div class="slide">
+        <h2>TECHNICAL INNOVATION</h2>
+        <div class="grid-container">
+            <div class="card" style="width: 45%;">
+                <h4 style="color: var(--neon-blue);">Unified Ecosystem</h4>
+                <p><strong>Cross-Calibration:</strong> A humidity drop triggers a preventive Disease Scan. Sensors work together, not alone.</p>
+            </div>
+            <div class="card" style="width: 45%;">
+                <h4 style="color: var(--neon-orange);">Human-in-the-Loop</h4>
+                <p><strong>Bi-Directional Protocol:</strong> Farmers can force-stop pumps or fans instantly from the phone app (ms latency).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: DFM (Was 11) -->
+    <div class="slide">
+        <h2>SCALING UP (DFM)</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Prototype</th>
+                    <th>Commercial Product</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sensor</strong></td>
+                    <td>DHT11</td>
+                    <td style="color: var(--neon-green);">Sensirion SHT85</td>
+                </tr>
+                <tr>
+                    <td><strong>Actuator</strong></td>
+                    <td>Servo Motor</td>
+                    <td style="color: var(--neon-green);">Linear Actuator</td>
+                </tr>
+                <tr>
+                    <td><strong>Comm</strong></td>
+                    <td>Relay Logic</td>
+                    <td style="color: var(--neon-green);">Modbus RS485</td>
+                </tr>
+                <tr>
+                    <td><strong>Soil</strong></td>
+                    <td>Resistive</td>
+                    <td style="color: var(--neon-green);">Capacitive (METER Group)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SLIDE 11: BUSINESS (Was 12) -->
+    <div class="slide">
+        <h2>VALUE PROPOSITION</h2>
+        <div class="grid-container">
+            <div class="card col-3 accent-blue">
+                <h4>🧑‍🌾 Skill Gap</h4>
+                <p>Enables unskilled labor to manage complex crops via AI guidance.</p>
+            </div>
+            <div class="card col-3 accent-green">
+                <h4>📉 Lower OpEx</h4>
+                <p>Removes the cost of hiring on-site agronomy consultants.</p>
+            </div>
+            <div class="card col-3 accent-orange">
+                <h4>🛡️ Reliability</h4>
+                <p>"Zero-Downtime" logic ensures safety even if the internet fails.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: ROADMAP (Was 13) -->
+    <div class="slide">
+        <h2>FUTURE HORIZON</h2>
+        <div class="grid-container">
+            <div class="card" style="width: 45%;">
+                <h4 style="color: var(--neon-purple);">LoRaWAN Integration</h4>
+                <p>Switching from ESP-NOW to LoRa for multi-kilometer telemetry in large plantations.</p>
+            </div>
+            <div class="card" style="width: 45%;">
+                <h4 style="color: var(--neon-blue);">XYZ Gantry System</h4>
+                <p>Mounting the AI camera on motorized rails to scan every inch of the greenhouse.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: TEAM (NEW SLIDE) -->
+    <div class="slide">
+        <h2>PROJECT TEAM</h2>
+        <div class="grid-container" style="justify-content: center; gap: 20px;">
+            <!-- Member 1 -->
+            <div class="card accent-blue" style="width: 30%; text-align: center; min-width: 250px;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">👨‍💻</div>
+                <h4 style="margin: 0; color: #fff;">H.A.H.N WIJERATHNA</h4>
+            </div>
+            <!-- Member 2 -->
+            <div class="card accent-green" style="width: 30%; text-align: center; min-width: 250px;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">👨‍💻</div>
+                <h4 style="margin: 0; color: #fff;">J.C WELARATHNA</h4>
+            </div>
+            <!-- Member 3 -->
+            <div class="card accent-purple" style="width: 30%; text-align: center; min-width: 250px;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">👨‍💻</div>
+                <h4 style="margin: 0; color: #fff;">Y.B.U.A YAPA</h4>
+            </div>
+            <!-- Member 4 -->
+            <div class="card accent-yellow" style="width: 30%; text-align: center; min-width: 250px;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">👨‍💻</div>
+                <h4 style="margin: 0; color: #fff;">M.P.M.D WIMALARATHNA</h4>
+            </div>
+            <!-- Member 5 -->
+            <div class="card accent-red" style="width: 30%; text-align: center; min-width: 250px;">
+                <div style="font-size: 2rem; margin-bottom: 10px;">👨‍💻</div>
+                <h4 style="margin: 0; color: #fff;">K.I WIJESINGHE</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: END -->
+    <div class="slide" style="display: flex;">
+        <h1 style="font-size: 3rem; background: linear-gradient(90deg, var(--neon-green), var(--neon-blue)); -webkit-background-clip: text;">FUTURE OF FOOD SECURITY</h1>
+        <div style="margin: 40px auto; padding: 30px; border: 1px solid var(--neon-green); border-radius: 20px; background: rgba(10,255,96,0.05); max-width: 800px;">
+            <p style="font-size: 1.4rem; color: #fff; font-style: italic;">
+                "INNOX is not just technology; it's a resilient, adaptive, and intelligent agricultural robot designed to empower the next generation."
+            </p>
+        </div>
+        <p>THANK YOU</p>
+    </div>
+
+    <!-- CONTROLS -->
+    <button class="nav-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="nav-btn next" onclick="plusSlides(1)">&#10095;</button>
+    <div class="counter" id="slide-number">1 / 14</div>
+
+</div>
+
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("slide");
+        let numberText = document.getElementById("slide-number");
+        
+        if (n > slides.length) {slideIndex = 1}    
+        if (n < 1) {slideIndex = slides.length}
+        
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        
+        slides[slideIndex - 1].style.display = "flex";  
+        numberText.innerHTML = slideIndex + " / " + slides.length;
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "ArrowRight") {
+            plusSlides(1);
+        } else if (event.key === "ArrowLeft") {
+            plusSlides(-1);
+        }
+    });
+</script>
+
+</body>
+</html>
